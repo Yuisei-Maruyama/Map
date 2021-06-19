@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from "react"
-import { GoogleMap, useLoadScript } from "@react-google-maps/api";
-// import PlaceInfo from "./PlaceInfo"
+import { GoogleMap, useLoadScript } from "@react-google-maps/api"
+import PlaceInfo from "../PlaceInfo/index"
 
 const containerStyle = {
   width: "100%",
@@ -37,7 +37,9 @@ const Maps = () => {
       zoom={17}
       options={options}
       onLoad={onMapLoad}
-    ></GoogleMap>
+    >
+      <PlaceInfo/>
+    </GoogleMap>
   );
 };
 
