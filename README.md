@@ -11,14 +11,64 @@
 ## パッケージインストール
 
 ```bash
+% npm i node-sass google-map-react --save
 % npm i @react-google-maps/api
-% npm i -D @material-ui/icons @material-ui/core eslint eslint-config-prettier prettier @typescript-eslint/parser @typescript-eslint/eslint-plugin husky lint-staged
-% npm i
+% npm i -D @material-ui/icons @material-ui/core eslint eslint-config-prettier prettier @typescript-eslint/parser @typescript-eslint/eslint-plugin husky lint-staged react-router react-router-dom sass-loader @types/node-sass @types/googlemaps @types/google-map-react
 ```
 
 ## Google Maps API Link
 
 https://react-google-maps-api-docs.netlify.app/#section-getting-started
+
+## React Google Maps API Style Guide
+
+https://github.com/google-map-react/google-map-react#readme
+
+
+## React Router
+
+下記のように記述することで、指定したコンポーネントを表示可能にする。
+
+```ts
+function App() {
+  return (
+    <Router>
+      <div className="App">
+        <Header></Header>
+        <Switch>
+          <Route exact path={'/'} component={() => <Maps />} />
+          <Route path={'/art'} component={() => <Art />} />
+          <Route path={'/cafe'} component={() => <Cafe />} />
+          <Route path={'/food'} component={() => <Food />}/>
+        </Switch>
+      </div>
+    </Router>
+  );
+}
+```
+
+## React Hooks
+
+- **useHistory**
+
+ページ遷移させるときに使うhistoryを取得できる
+```
+const history = useHistory()
+history.push('/')やhistory.goBack()
+```
+
+- **useLocation**
+
+現在のページのURLのpathやqueryなどの情報を取得できる
+```
+const location = useLocation()
+location.pathやlocation.search
+```
+
+- **useParams**
+
+URLのパスの中で動的に変化する部分の値を取得できる
+
 
 ## React Hooks 型付け
 
