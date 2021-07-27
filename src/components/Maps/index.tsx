@@ -1,46 +1,51 @@
-import React, { useCallback, useRef } from "react"
-import { GoogleMap, useLoadScript } from "@react-google-maps/api"
-import PlaceInfo from "../PlaceInfo/index"
+import React from 'react'
+import GoogleMapReact, { MapOptions, Maps } from 'google-map-react'
+// import PlaceInfo from "../PlaceInfo/index"
+import Style from './Maps.module.scss'
+import darkStyle from '../../mapStyle/darkColor.json'
 
-const containerStyle = {
-  width: "100%",
-  height: "50vh",
-};
 
 const center = { // 東京駅を中心に設定
   lat: 35.68133204240732,
   lng: 139.76715698502676,
 };
 
-const options = {
-  zoomControl: true,
-};
+// const Pin = ({ lat, lng, text }: { lat: number, lng: number, text: string }) => <div>{text}</div>
 
-const Maps = () => {
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_googleMapsApiKey as string,
-    libraries: ["places"],
-  })
-
-  const mapRef = useRef();
-  const onMapLoad = useCallback((map) => {
-    mapRef.current = map;
-  }, [])
-
-  if (loadError) return <>{"Error"}</>;
-  if (!isLoaded) return <>{"Loading..."}</>;
-
+const Map = () => {
+  const googleMapsApiKey = { key: process.env.REACT_APP_googleMapsApiKey as string }
+  const createMapOptions = (maps: Maps): MapOptions => {
+    return {
+      mapTypeControlOptions: {
+        position: maps.ControlPosition.TOP_RIGHT,
+      },
+      mapTypeControl: false,
+      zoomControl: false,
+      scaleControl: false,
+      streetViewControl: false,
+      fullscreenControl: false,
+      styles: darkStyle
+    }
+  }
   return (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={17}
-      options={options}
-      onLoad={onMapLoad}
-    >
-      <PlaceInfo/>
-    </GoogleMap>
+    <div style={{ height:'100vh', width:'100％'  } }>
+    <GoogleMapReact
+      bootstrapURLKeys={googleMapsApiKey}
+      defaultCenter={center}
+      defaultZoom={17}
+      options={createMapOptions}
+      >
+        {/* <div className={ Style.pin}>
+          <Pin
+            lat={35.68133204240732}
+            lng={1139.76715698502676}
+            text="My Marker"
+          />
+        </div> */}
+      {/* <PlaceInfo/> */}
+      </GoogleMapReact>
+    </div>
   );
 };
 
-export default Maps;
+export default Map;

@@ -5,14 +5,20 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
 import { Menu } from '@material-ui/core'
 import MenuItem from '@material-ui/core/MenuItem'
 import MenuIcon from '@material-ui/icons/Menu'
+import * as Icons from "@material-ui/icons"
+// import { BrowserRouter as Router, Switch, Route, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
+import Box from '@material-ui/core/Box'
+import Style from './Header.module.scss'
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#78C5DC',
+      main: '#34f5a8',
     },
     secondary: {
       main: '#f06292',
@@ -44,11 +50,29 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-const options = ['All', 'Food', 'Art', 'Cafe']
+// const options = [
+//   {
+//     disc: 'All',
+//     tagName: 'Map'
+//   },
+//   {
+//     disc: 'Food',
+//     tagName: 'FastFood'
+//   },
+//   {
+//     disc: 'Art',
+//     tagName: 'Museum'
+//   },
+//   {
+//     disc: 'Cafe',
+//     tagName: 'LocalCafe'
+//   }
+// ]
 
 const ITEM_HEIGHT = 48
 
-const Header: React.FC = ({ children }) =>  {
+const Header: React.FC = ({ children }) => {
+  const history = useHistory()
   const classes = useStyles()
   // const [isOpenDrawer, setDrawerState] = React.useState(false)
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
@@ -58,9 +82,21 @@ const Header: React.FC = ({ children }) =>  {
     setAnchorEl(event.currentTarget)
   }
 
+  // const handleClickOption = (option: string) => {
+  //   console.log(option)
+  //   this.props.history.push(`/${option}`)
+  // }
+
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  // const titleStyle = {
+  //   textShadow: rgb(9, 177, 110) 0px 0px 8px;
+  //   color: rgb(52, 245, 168);
+  //   backgroundColor: rgb(15, 16, 17);
+  // };
+
   return (
     <MuiThemeProvider theme={theme}>
       <div className={classes.root}>
@@ -89,13 +125,40 @@ const Header: React.FC = ({ children }) =>  {
                 },
               }}
             >
-              {options.map((option) => (
-                <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-                  {option}
-                </MenuItem>
-              ))}
+              {/* {options.map((option) => (
+                <>
+                  <MenuItem key={option.disc} onClick={() => history.push(`/${option}`)}>
+                    <ListItemIcon>
+                      {option.disc}
+                    </ListItemIcon>
+                  </MenuItem>
+                </>
+              ))} */}
+              {/* 動的タグの生成方法を模索中のため、とりあえずベタ書き */}
+              <MenuItem>
+                <ListItemIcon className={Style.grow}>
+                  <Box display="flex" flexDirection="column">
+                    <Box display="flex" flexDirection="row" mb={ 2 } onClick={() => history.push('/')}>
+                      <Icons.Map />
+                      <Typography>All</Typography>
+                    </Box>
+                    <Box display="flex" flexDirection="row" mb={ 2 } onClick={() => history.push('/food')}>
+                      <Icons.Fastfood />
+                      <Typography>Food</Typography>
+                    </Box>
+                   <Box display="flex" flexDirection="row" mb={ 2 } onClick={() => history.push('/art')}>
+                      <Icons.Museum />
+                      <Typography>Art</Typography>
+                    </Box>
+                   <Box display="flex" flexDirection="row" onClick={() => history.push('/cafe')}>
+                      <Icons.LocalCafe />
+                      <Typography>Cafe</Typography>
+                    </Box>
+                  </Box>
+                </ListItemIcon>
+              </MenuItem>
             </Menu>
-            <Typography variant="h6" className={classes.title} color="textPrimary">
+            <Typography variant="h6" className={Style.grow} color="textPrimary">
               MY Maps
             </Typography>
             <Button color="default">Login</Button>
